@@ -1,3 +1,5 @@
+
+
 # Ejercicios del tema 2
 
 ## Ejercicio 1
@@ -27,6 +29,8 @@ nvm install v4.9.1
 nvm install v14.13.0
 ```
 
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/2.png)
+
 ## Ejercicio 2
 
 > Crear una descripción del módulo usando package.json. En caso de que se trate de otro lenguaje, usar el método correspondiente.
@@ -36,14 +40,28 @@ Para crear un módulo voy a usar el gestor de paquetes ```npm```
 ```bash
 sudo apt install npm
 ```
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/1.png)
+
+
+
 Para generar el archivo ```package.json``` hay que ejecutar:
+
 ```bash
 npm init
 ```
+
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/3.png)
+
 Y para instalar una dependencia:
+
 ```bash
 npm install docco grunt-docco --save-dev
 ```
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/4.png)
+
+
 
 ## Ejercicio 3
 
@@ -70,17 +88,24 @@ git clone https://github.com/JJ/spray-test
 
 Se intenta ejecutar el proyecto, pero no funciona de esta manera. 
 
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/5.png)
+
+
+
 Se instalan las dependencias con ```brew```
 
 ```sbt
 sbt compile
 > test
 ```
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/6.png)
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/7.png)
 
 ```sbt
 > re-start
 ```
-
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/8.png)
 
 ```sbt
 curl http://localhost:8080
@@ -90,16 +115,22 @@ curl -X PUT http://localhost:8080/5/21/Test8000
 curl http://localhost:8080/Test8000    
 ```
 
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/9.png)
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/10.png)
+
 ## Ejercicio 4
 > Para la aplicación que se está haciendo, escribir una serie de aserciones y probar que efectivamente no fallan. Añadir tests para una nueva funcionalidad, probar que falla y escribir el código para que no lo haga. A continuación, ejecutarlos desde mocha (u otro módulo de test de alto nivel), usando descripciones del test y del grupo de test de forma correcta. Si hasta ahora no has subido el código que has venido realizando a GitHub, es el momento de hacerlo, porque lo vamos a necesitar un poco más adelante.
 
 Para agregar tests en Spring sólo haría falta añadir los archivos en la carpeta de ```test```.
 
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/11.png)
+
 Se han hecho dos test, uno que da error.
 
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/14.png)
 
 
-Después se agrega
 
 
 
@@ -109,7 +140,9 @@ Después se agrega
 
 Voy a agregar Travis CI al repositorio, como lo tenía configurado de antes no se muestra el mensaje de bienvenida.
 
-Se liga el repositorio y una vez agregado el archivo ```.travis.yaml``` 
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/20.png)
+
+Se liga el repositorio en la plataforma de TravisCI y una vez agregado el archivo ```.travis.yaml``` al proyecto con la configuración.
 
 ```yaml
 language: java
@@ -117,8 +150,10 @@ jdk:
   - oraclejdk15
 ```
 
-Se ejecutan los test.
+Se ejecutarán los test en las siguientes subidas de código.
 
-Se muestra los test iniciales que fallan.
+Por último, se han arreglado y ahora se muestran los test arreglados que pasan.
 
-Por último, se han arreglado y ahora se muestran los test arreglados.
+
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%202/18.png)
