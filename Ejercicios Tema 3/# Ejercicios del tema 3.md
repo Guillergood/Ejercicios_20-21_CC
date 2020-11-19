@@ -112,4 +112,146 @@ Por último se montar con el comando:
 
 
 
+## Ejercicio 6
 
+> Usar un miniframework REST para crear un servicio web y introducirlo en un contenedor, y componerlo con un cliente REST que sea el que finalmente se ejecuta y sirve como “frontend”.
+
+Para este ejercicio se va a usar parte pequeña de lo utilizado en el curso TDD, la aplicación "*kakapos*" modificada:
+
+```python
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return 'Hola Ejercicios Tema 3'
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
+```
+
+Con su Dockerfile correspondiente:
+
+```Dockerfile
+FROM tiangolo/uwsgi-nginx-flask:python3.6-alpine3.7
+
+WORKDIR .
+
+COPY requirements.txt kakapos.py ./
+
+RUN pip install -r requirements.txt
+
+COPY . .
+
+CMD ["python", "./kakapos.py"]
+```
+
+Y requirements.txt:
+
+```
+flask
+```
+
+Con esto conseguimos el siguiente servidor ejecutando ` docker run -p 5000:5000 servidor` (se pone el puerto 5000 porque es el de defecto de Flask)
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%203/9.png)
+
+
+
+Para el cliente se va a utilizar un programa escrito en bash muy sencillo:
+
+```bash
+curl http://172.17.0.1:5000/
+```
+
+Con su Dockerfille
+
+```dockerfile
+FROM ubuntu:18.04
+
+WORKDIR .
+
+RUN apt-get update && apt-get install -y \
+curl
+
+COPY curl.sh ./
+
+CMD ["bash", "./curl.sh"]
+```
+
+Obteniendose:
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%203/10.png)
+
+
+
+Una vez hechos estos dos contenedores docker, se va a proceder a su orquestación con **docker-compose** , para ello se tiene que crear un archivo donde se especificarán los contenedores, *docker-compose.yml*:
+
+```yaml
+version: "3"
+services:
+   server:
+      container_name: server
+      restart: always
+      build: server/.
+      ports:
+      - "5000:5000"
+
+   cliente:
+      container_name: cliente
+      build: cliente/.
+      depends_on: 
+        - server
+      ports:
+      - "5001:5001"
+```
+
+Una vez configurado, se ejecuta con `docker-compose up` :
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%203/11.png)
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%203/12.png)
+
+Ejecuta ambos Dockerfile, teniendo en cuenta sus dependencias.
+
+## Ejercicio 7
+
+> Reproducir los contenedores creados anteriormente usando un Dockerfile.
+
+Hecho anteriormente.
+
+## Ejercicio 8
+
+> Crear con docker-machine una máquina virtual local que permita desplegar contenedores y ejecutar en él contenedores creados con antelación.
+
+Para realizar este ejercicio se utilizará **docker-machine**:
+
+Para instalarlo en Ubuntu se utiliza:
+
+```bash
+base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+sudo mv /tmp/docker-machine /usr/local/bin/docker-machine &&
+chmod +x /usr/local/bin/docker-machine &&
+sudo apt install virtualbox
+```
+
+Para crear una máquina virtual local se usa:
+
+```bash
+docker-machine create -d virtualbox <nombre deseado>
+```
+
+```bash
+docker-machine create -d virtualbox ejercicio-8
+```
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%203/13.png)
+
+Se ejecuta `docker-machine env ejercicio-8` y para configurar el shell `eval $(docker-machine env ejercicio-8)`
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%203/14.png)
+
+Con `docker-machine ip ejercicio-8` se descubre que la ip es `192.168.99.101`, donde se ejecuta el servicio.
+
+![](https://raw.githubusercontent.com/Guillergood/Ejercicios_20-21_CC/main/Ejercicios%20Tema%203/15.png)
